@@ -9,7 +9,7 @@ namespace WebApi.Models
     public interface IRepository<T>
     {
         T GetById(int id);
-        IEnumerable<T> GetAll();
+        IQueryable<T> GetAll();
         void Create(T _entity);
         void Update(T _entity);
         void Delete(T _entity);

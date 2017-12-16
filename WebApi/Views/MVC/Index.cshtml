@@ -1,0 +1,162 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<div class="container " >
+    <div class="panel panel-primary">
+        <div class="panel-heading">jQuery Call WebAPI</div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-9">
+                    <div id="app">
+                        <table class="table table-bordered table-hover table-striped" id="shipperstable">
+                            <thead>
+                                <tr>
+                                    <th>ShipperID</th>
+                                    <th>CompanyName</th>
+                                    <th>Phone</th>
+                                    <th>修改</th>
+                                    <th>刪除</th>
+                                </tr>
+
+                            </thead>
+                            <tbody id="tb">
+                                <tr v-for="cls in classdatas">
+                                    <td>{{cls.ShipperID}} </td>
+                                    <td><input type="text" v-bind:value="cls.CompanyName" /></td>
+                                    <td><input type="text" v-bind:value="cls.Phone" /></td>
+                                    <td><button type="button" class="btn btn-secondary">修改</button></td>
+                                    <td><button type="button" class="btn btn-danger">刪除</button></td>
+                                </tr>
+
+
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h4>Shipper 新增</h4>
+                        </div>
+                        <div class="panel-body">
+                            <form>
+                                <div class="form-group">
+                                    <label for="CompanyName">CompanyName</label>
+                                    <input type="text" class="form-control" id="CompanyName" name="CompanyName" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="Phone">Phone</label>
+                                    <input type="text" class="form-control" id="Phone" name="Phone" />
+                                </div>
+                                <button type="button" class="btn btn-primary" id="buttonAdd"><span class="glyphicon glyphicon-plus"></span> 新增</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    
+<script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.0/vue.js'></script>
+    <script>
+
+        $(document).ready(function () {
+
+            var apiurl ="@Url.RouteUrl("DefaultApi", new {httproute="" ,Controller = "Shippers" })";
+            var vm = new Vue({
+                el: "#app",
+                data: {
+                    classdatas: []
+                }
+            });
+
+           
+            loadShipper();
+            function loadShipper() {
+
+                  $.ajax({
+                    url:apiurl,
+                    type: 'get',
+
+                    success: function (res) {
+
+                        vm.classdatas = res;
+                        console.log(res);
+                    }
+                    
+
+                })
+
+
+
+            }
+
+            $("#buttonAdd").click(function () {
+                
+               
+                var jsondata = JSON.stringify( { "CompanyName": $("#CompanyName").val(), "Phone": $("#Phone").val() });
+                
+                $.ajax({
+                    url: apiurl,
+                    type: 'post',
+                    contentType: "application / json",
+                    data: jsondata,
+                }).done(function () {
+
+                    loadShipper();
+                    $("#CompanyName").val();
+                    $("#Phone").val();
+                    })
+
+
+            
+
+
+          
+
+
+
+
+            })
+
+            $("#shipperstable>tbody ").on("click", ".btn-danger", function () {
+               var s= $(this).parents("tr").find("td:nth-child(1)").text();
+                
+                $.ajax({
+                    url: apiurl+"/"+s,
+                    type: 'delete',
+                  
+                }).done(function () {
+
+                    loadShipper();
+                    })
+            })
+
+            $("#shipperstable>tbody ").on("click", ".btn-secondary", function () {
+                var id = $(this).parents("tr").find("td:nth-child(1)").text();
+                var CompanyName = $(this).parents("tr").find("td>input:nth-child(1)").val();
+                var Phone = $(this).parents("tr").find("td:eq(2)>input:nth-child(1)").val();
+                var jsondata = JSON.stringify({"ShipperID":id ,"CompanyName": CompanyName, "Phone": Phone });
+                $.ajax({
+                    url: apiurl,
+                    type: 'put',
+                    contentType: "application / json",
+                    data: jsondata,
+
+                }).done(function () {
+                    alert("修改成功");
+                    loadShipper();
+                })
+            })
+        })
+    </script>
+   
+
+}

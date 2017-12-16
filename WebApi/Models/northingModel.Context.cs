@@ -26,5 +26,7 @@ namespace WebApi.Models
         }
     
         public virtual DbSet<Categories> Categories { get; set; }
+        public virtual DbSet<Employees> Employees { get; set; }
+        public virtual DbSet<Shippers> Shippers { get; set; }
     }
 }

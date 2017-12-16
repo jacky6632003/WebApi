@@ -31,7 +31,7 @@ namespace WebApi.Models
             db.SaveChanges();
         }
 
-        public IEnumerable<T> GetAll()
+        public IQueryable<T> GetAll()
         {
             return Dbset;
         }
