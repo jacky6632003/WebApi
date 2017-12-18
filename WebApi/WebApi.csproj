@@ -215,6 +215,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CategoriesController.cs" />
     <Compile Include="Controllers\MVCController.cs" />
     <Compile Include="Controllers\ShippersController.cs" />
     <Compile Include="Global.asax.cs">
@@ -224,6 +225,7 @@
     <Compile Include="Models\Categories.cs">
       <DependentUpon>northingModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CategoriesViewModel.cs" />
     <Compile Include="Models\Employees.cs">
       <DependentUpon>northingModel.tt</DependentUpon>
     </Compile>
@@ -268,6 +270,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="image\NO.jpg" />
     <Content Include="Models\northingModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>northingModel.edmx</DependentUpon>
@@ -330,6 +333,7 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\MVC\Index.cshtml" />
+    <Content Include="Views\MVC\Index2.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
